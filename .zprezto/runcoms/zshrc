@@ -13,10 +13,71 @@ fi
 # Customize to your needs...
 alias x='exit'
 alias config='/usr/bin/git --git-dir=$HOME/.myconf/ --work-tree=$HOME'
+alias ptpython='python -m ptpython'
+alias ptipython='python -m ptipython'
+
+alias k=kubectl
+alias kubeswitch='kubectl config use-context'
+alias kubecluster='kubectl config current-context'
+alias kubegetip="kubectl get svc -l app=nginx-ingress,component=controller -n kube-system -o json | jq -r '.items | .[].status.loadBalancer.ingress | .[].ip'"
+alias ks='kubeswitch'
+alias kw='kubecluster'
+alias kip='kubegetip'
+
+
+export PATH="/usr/local/bin:$PATH:$HOME/bin:/Users/spritchard/go/bin"
+
+alias tfc-cc='cookiecutter git+ssh://stash:/its/cookiecutter-tfc'
+alias diff='colordiff'
+alias gitpurge='git branch --merged | grep -Ev "(\*|master|develop|staging)" | xargs -n 1 git branch -d'
+alias ip='curl https://canhazip.com'
+oneline () {
+  cat $1 | gsed ':a;N;$!ba;s/\n/\\n/g'
+}
+h () {
+  curl "https://cht.sh/$1"
+}
+
+known-hosts () {
+  sed -i.bak -e "$1d" .ssh/known_hosts
+}
+
+alias batch-ips="az network public-ip list -o json | jq '.[] | select(.name | contains(\"azurebatch-cloudservicepublicip\")) | {resourceGroup: .resourceGroup, batchAccount: .tags.BatchAccountName, batchPool: .tags.PoolName, ipAddress: .ipAddress}'"
+
+az-ip-check () {
+  az network public-ip list -o json | jq ".[] | select(.ipAddress == \"$1\")"
+}
+
+bb-key () {
+  cat ~/.ssh/stash-read-only.pub | pbcopy
+}
+
+docker-pwd() {
+docker run -it --rm -v $(pwd):/src -w /src $1 bash
+}
 
 eval "$(fasd --init auto)"
 #fasd aliases
 alias v='f -e vim'
-alias gitpurge='git branch --merged | grep -Ev "(\*|master|develop|staging)" | xargs -n 1 git branch -d'
+alias c='f -e cat'
 
-export PATH=$PATH\:/Users/spritchard/Library/Python/3.6/bin
+# Terraform
+alias tf='terraform'
+
+# Go
+export GOPATH=/Users/spritchard/go
+
+# Ruby
+#if which ruby >/dev/null && which gem >/dev/null; then
+#    PATH="$(ruby -rubygems -e 'puts Gem.user_dir')/bin:$PATH"
+#fi
+
+# gives ability to hide sensitive content from history
+HISTCONTROL=ignorespace
+
+# BOTTOM OF FILE
+# Pyenv (wants to be last path)
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+

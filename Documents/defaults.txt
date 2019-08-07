@@ -1,0 +1,21 @@
+# show docker quicker on hover
+defaults write com.apple.dock autohide-delay -float 0
+
+# key repeat speed
+defaults write -g KeyRepeat -int 2
+defaults write -g InitialKeyRepeat -int 15
+
+# default cmd+shift+4 screenshot location
+mkdir ~/Pictures/screenshots
+defaults write com.apple.screencapture location ~/Pictures/screenshots
+
+# always show expanded save dialog
+write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool
+write NSGlobalDomain NSNavPanelExpandedStateForSaveMode2 -bool
+
+# external mouse only
+# write .GlobalPreferences com.apple.mouse.scaling -1
+
+# vscode
+defaults write com.microsoft.VSCode ApplePressAndHoldEnabled -bool false
+
