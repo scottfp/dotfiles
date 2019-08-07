@@ -38,8 +38,9 @@ h () {
   curl "https://cht.sh/$1"
 }
 
-known-hosts () {
-  sed -i.bak -e "$1d" .ssh/known_hosts
+rm-known-host () {
+  sed -i.bak -e '1 w /dev/stdout' -e "$1d" $HOME/.ssh/known_hosts
+  echo "removed known host $1"
 }
 
 alias batch-ips="az network public-ip list -o json | jq '.[] | select(.name | contains(\"azurebatch-cloudservicepublicip\")) | {resourceGroup: .resourceGroup, batchAccount: .tags.BatchAccountName, batchPool: .tags.PoolName, ipAddress: .ipAddress}'"
